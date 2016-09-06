@@ -6,12 +6,8 @@ FROM nlknguyen/alpine-mpich:onbuild
 
 # Put all build steps here
 
-# Notice: the current directory is ${WORKDIR:=/project}, which is 
+# Note: the current directory is ${WORKDIR:=/project}, which is 
 # also the default directory where ${USER:=mpi} will SSH login to
 
-# # ------------------------------------------------------------
-# # Start SSH Server
-# # ------------------------------------------------------------
-USER root
-EXPOSE 22
-CMD ["/usr/sbin/sshd","-D", "-e"]
+COPY project/ .
+RUN mpicc -o mpi_hello_world mpi_hello_world.c

@@ -1,0 +1,28 @@
+version: "2"
+
+services:
+  registry:
+    image: registry
+    ports:
+      - "${REGISTRY_PORT}:5000"
+    networks:
+      - net
+
+  mpi_master:
+    image: localhost:$REGISTRY_PORT/alpine-mpich-node
+    user: root
+    entrypoint: "mpi_master"
+    ports: 
+      - "${SSH_PORT}:22"
+    networks:
+      - net
+
+  mpi_worker:
+    image: localhost:$REGISTRY_PORT/alpine-mpich-node
+    user: root
+    entrypoint: "mpi_worker"
+    networks:
+      - net
+
+networks:
+  net:
