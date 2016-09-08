@@ -19,11 +19,11 @@ printf "\n\n===> PUSH IMAGE TO REGISTRY \n\n"
 docker push localhost:${REGISTRY_PORT}/alpine-mpich-node
 
 printf "\n\n===> SPIN UP MASTER NODE \n\n" 
-docker-compose up -d mpi_master
+docker-compose up -d master
 
 printf "\n\n===> SPIN UP WORKER NODES \n\n"  
-docker-compose up -d mpi_worker
-docker-compose scale mpi_worker=${NUM_WORKER} 
+docker-compose up -d worker
+docker-compose scale worker=${NUM_WORKER} 
 
 
 
@@ -57,6 +57,6 @@ echo "  2. Execute MPI programs inside master node"
 echo "     $ mpirun hostname"
 echo "      *----------------------------------------------------*"
 echo "      | Default hostfile of connected nodes in the cluster |"
-echo "      | is automatically updated at /etc/opt/machines.     |"
+echo "      | is automatically updated at /etc/opt/hosts         |"
 echo "      | To obtain hostfile manually: $ get_hosts > hosts   |"
 echo "      * ---------------------------------------------------*"
