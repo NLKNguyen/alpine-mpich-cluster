@@ -1,0 +1,70 @@
+netstat -tn | grep ESTABLISHED | awk '{print $4 "\n" $5}' | cut -d: -f1 | sort -u
+
+
+
+netstat -tnp | grep ESTABLISHED | awk '{print $4}' | sed 's/:.*//'
+
+ssh -i /home/${USER}/.ssh/id_rsa mpi@mpi_master &
+
+( grep -E "$(hostname)" /etc/hosts | cut -f1 \
+& netstat -tn | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1; ) | sort -u > hosts
+
+$ ssh -i ssh/id_rsa -p 32768 mpi@192.168.99.100
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the ECDSA key sent by the remote host is
+SHA256:ETC17537qBTWWRtnlkZwTDM7Owul8LZ9imuv0hX1sqg.
+Please contact your system administrator.
+Add correct host key in /c/Users/NLKNg/.ssh/known_hosts to get rid of this message.
+Offending ECDSA key in /c/Users/NLKNg/.ssh/known_hosts:3
+ECDSA host key for [192.168.99.100]:32768 has changed and you have requested strict checking.
+Host key verification failed.
+
+NLKNg@DESKTOP-6LDLAR9 MINGW64 ~/git/alpine-mpich-cluster (master)
+$ ssh-keygen -R [192.168.99.100]:32768
+
+
+# ENV HOME /home/${USER}
+
+# USER root
+
+# RUN chown -R ${USER}:${USER} ${HOME}
+# COPY get_hosts /usr/local/bin/
+# RUN chmod +x /usr/local/bin/get_hosts
+# RUN echo "get_hosts > hosts" >> ${HOME}/.profile
+
+# COPY get_hosts /tmp/
+# RUN cat /tmp/get_hosts >> ${HOME}/.profile
+
+# USER ${USER}
+
+
+# mpi_master:
+#     build: .
+#     ports: 
+#       # - "22"
+#       - "2222:22"      
+#     links: 
+#       - mpi_worker
+
+# mpi_worker:
+#     build: .
+
+
+
+# docker-compose up -d registry
+
+# docker build -t localhost:${REGISTRY_PORT}/alpine-mpich-node .
+# docker push localhost:${REGISTRY_PORT}/alpine-mpich-node
+
+# docker-compose up -d mpi_master
+# docker-compose up -d mpi_worker
+  # mpi_master
+
+
+  #!/bin/sh
+# set -e 
